@@ -2,9 +2,12 @@ package com.epam.wklab.restsvc.dao;
 
 import com.epam.wklab.restsvc.beans.Id;
 import com.epam.wklab.restsvc.beans.Lesson;
+import com.epam.wklab.restsvc.beans.Lessons;
 import com.epam.wklab.restsvc.server.LessonNotFoundException;
 
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -44,5 +47,12 @@ public class RAMLessonsDAO implements LessonsDAO {
         Lesson ret = lessonsMap.get(updatedLesson.getId().getValue());
         lessonsMap.put(updatedLesson.getId().getValue(),updatedLesson);
         return ret;
+    }
+
+    @Override
+    public Lessons getLessons() {
+        Lessons lessons = new Lessons();
+        lessons.setLessons(new ArrayList<>(lessonsMap.values()));
+        return lessons;
     }
 }

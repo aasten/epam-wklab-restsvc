@@ -92,6 +92,13 @@ public class TeacherService {
     
     // lessons
 
+    @GET
+    @Path("/lessons")
+    public Response getLessons() {
+        return Response.status(Response.Status.OK).entity(
+                LessonsDAOAccess.INSTANCE.getLessonsDAO().getLessons()).build();
+    }
+
     @POST
     @Path("/lessons/lesson")
     public Response createLesson(Lesson newLesson) {
