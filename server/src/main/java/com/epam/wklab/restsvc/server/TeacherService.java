@@ -47,6 +47,13 @@ public class TeacherService {
     
     // teachers
 
+    @GET
+    @Path("/teachers")
+    public Response getTeachers() {
+        return Response.status(Response.Status.OK).entity(
+                TeachersDAOAccess.INSTANCE.getTeachersDAO().getTeachers()).build();
+    }
+
     @POST
     @Path("/teachers/teacher")
     public Response createTeacher(Teacher newTeacher) {

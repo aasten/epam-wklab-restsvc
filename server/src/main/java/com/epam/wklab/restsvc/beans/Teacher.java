@@ -1,6 +1,7 @@
 package com.epam.wklab.restsvc.beans;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
 import java.util.Date;
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class Teacher {
         this.birthDay = birthDay;
     }
 
+    @XmlElement(name="lesson")
     public List<Integer> getLessons() {
         return lessons;
     }

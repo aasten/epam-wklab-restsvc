@@ -2,9 +2,12 @@ package com.epam.wklab.restsvc.dao;
 
 import com.epam.wklab.restsvc.beans.Id;
 import com.epam.wklab.restsvc.beans.Teacher;
+import com.epam.wklab.restsvc.beans.Teachers;
 import com.epam.wklab.restsvc.server.TeacherNotFoundException;
 
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -44,5 +47,12 @@ public class RAMTeachersDAO implements TeachersDAO {
         Teacher ret = teachersMap.get(updatedTeacher.getId().getValue());
         teachersMap.put(updatedTeacher.getId().getValue(),updatedTeacher);
         return ret;
+    }
+
+    @Override
+    public Teachers getTeachers() {
+        Teachers teachers = new Teachers();
+        teachers.setTeachers(new ArrayList<>(teachersMap.values()));
+        return teachers;
     }
 }
