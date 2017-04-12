@@ -26,6 +26,7 @@
     <!--</bean>-->
     <bean id="jaxbProvider" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider" />
     <bean id="teacherNotFound" class="com.epam.wklab.restsvc.providers.TeacherNotFoundExceptionHandler" />
+    <bean id="lessonNotFound" class="com.epam.wklab.restsvc.providers.LessonNotFoundExceptionHandler" />
 
     <jaxrs:server id="teachers">
         <jaxrs:serviceBeans>
@@ -35,6 +36,7 @@
             <ref bean="jsonProvider" />
             <ref bean="jaxbProvider" />
             <ref bean="teacherNotFound" />
+            <ref bean="lessonNotFound" />
         </jaxrs:providers>
     </jaxrs:server>
 

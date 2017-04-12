@@ -10,16 +10,16 @@ import java.util.List;
 @XmlRootElement
 public class Teacher {
 
-    private Integer id;
+    private Id id;
     private String name;
     private Date birthDay;
     private List<Integer/* lesson id */> lessons;
 
-    public Integer getId() {
+    public Id getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Id id) {
         this.id = id;
     }
 

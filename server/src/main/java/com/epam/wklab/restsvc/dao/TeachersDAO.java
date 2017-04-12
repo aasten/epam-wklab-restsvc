@@ -1,5 +1,6 @@
 package com.epam.wklab.restsvc.dao;
 
+import com.epam.wklab.restsvc.beans.Id;
 import com.epam.wklab.restsvc.beans.Teacher;
 import com.epam.wklab.restsvc.server.TeacherNotFoundException;
 
@@ -13,8 +14,8 @@ public interface TeachersDAO {
      */
     Integer create(Teacher newTeacher);
 
-    void delete(Integer id);
-    Teacher get(Integer id) throws TeacherNotFoundException;
+    void delete(Id id);
+    Teacher get(Id id) throws TeacherNotFoundException;
 
     /**
      * @return previous Teacher object with same id as in updatedTeacher

@@ -1,5 +1,6 @@
 package com.epam.wklab.restsvc.dao;
 
+import com.epam.wklab.restsvc.beans.Id;
 import com.epam.wklab.restsvc.beans.Teacher;
 import com.epam.wklab.restsvc.server.TeacherNotFoundException;
 
@@ -17,27 +18,29 @@ public class RAMTeachersDAO implements TeachersDAO {
 
     public Integer create(Teacher newTeacher) {
         Integer id = idCounter.addAndGet(1);
-        newTeacher.setId(id);
+        Id newId = new Id();
+        newId.setValue(id);
+        newTeacher.setId(newId);
         teachersMap.put(id, newTeacher);
         return id;
     }
 
-    public void delete(Integer id) {
-        teachersMap.remove(id);
+    public void delete(Id id) {
+        teachersMap.remove(id.getValue());
     }
 
     @Override
-    public Teacher get(Integer id) throws TeacherNotFoundException {
-        Teacher ret = teachersMap.get(id);
+    public Teacher get(Id id) throws TeacherNotFoundException {
+        Teacher ret = teachersMap.get(id.getValue());
         if(null == ret) {
-            throw new TeacherNotFoundException("Teacher with id " + id + " not found");
+            throw new TeacherNotFoundException("Teacher with id " + id.getValue() + " not found");
         }
         return ret;
     }
 
     public Teacher update(Teacher updatedTeacher) {
-        Teacher ret = teachersMap.get(updatedTeacher.getId());
-        teachersMap.put(updatedTeacher.getId(),updatedTeacher);
+        Teacher ret = teachersMap.get(updatedTeacher.getId().getValue());
+        teachersMap.put(updatedTeacher.getId().getValue(),updatedTeacher);
         return ret;
     }
 }

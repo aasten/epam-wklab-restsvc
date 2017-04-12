@@ -1,5 +1,6 @@
 package com.epam.wklab.restsvc.server;
 
+import com.epam.wklab.restsvc.beans.Id;
 import com.epam.wklab.restsvc.beans.Lesson;
 import com.epam.wklab.restsvc.beans.Teacher;
 import com.epam.wklab.restsvc.dao.RAMLessonsDAO;
@@ -56,8 +57,10 @@ public class TeacherService {
     @GET
     @Path("/teachers/teacher/{id}")
     public Response getTeacher(@PathParam("id")Integer id) throws TeacherNotFoundException {
+        Id teacherId = new Id();
+        teacherId.setValue(id);
         return Response.status(Response.Status.OK).entity(
-                TeachersDAOAccess.INSTANCE.getTeachersDAO().get(id)).build();
+                TeachersDAOAccess.INSTANCE.getTeachersDAO().get(teacherId)).build();
     }
 
     @PUT
@@ -81,7 +84,9 @@ public class TeacherService {
     @DELETE
     @Path("/teachers/teacher/{id}")
     public Response deleteTeacher(@PathParam("id")Integer id) {
-        TeachersDAOAccess.INSTANCE.getTeachersDAO().delete(id);
+        Id teacherId = new Id();
+        teacherId.setValue(id);
+        TeachersDAOAccess.INSTANCE.getTeachersDAO().delete(teacherId);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
     
@@ -96,19 +101,25 @@ public class TeacherService {
 
     @GET
     @Path("/lessons/lesson/{id}")
-    public Response getLesson(@PathParam("id")Integer id) {
+    public Response getLesson(@PathParam("id")Integer id) throws LessonNotFoundException {
+        Id lessonId = new Id();
+        lessonId.setValue(id);
         return Response.status(Response.Status.OK).entity(
-                LessonsDAOAccess.INSTANCE.getLessonsDAO().get(id)).build();
+                LessonsDAOAccess.INSTANCE.getLessonsDAO().get(lessonId)).build();
     }
 
     @PUT
     @Path("/lessons/lesson")
     public Response updateLesson(Lesson updatedLesson) {
-        Lesson existedLesson = LessonsDAOAccess.INSTANCE.getLessonsDAO().get(updatedLesson.getId());
-        if(null != existedLesson) {
-            if(updatedLesson.equals(existedLesson)) {
-                return Response.status(Response.Status.NOT_MODIFIED).build();
+        try {
+            Lesson existedLesson = LessonsDAOAccess.INSTANCE.getLessonsDAO().get(updatedLesson.getId());
+            if (null != existedLesson) {
+                if (updatedLesson.equals(existedLesson)) {
+                    return Response.status(Response.Status.NOT_MODIFIED).build();
+                }
             }
+        } catch(LessonNotFoundException e) {
+            // this is a new lesson
         }
         return Response.status(Response.Status.NO_CONTENT).entity(
                 LessonsDAOAccess.INSTANCE.getLessonsDAO().update(updatedLesson)).build();
@@ -117,7 +128,9 @@ public class TeacherService {
     @DELETE
     @Path("/lessons/lesson/{id}")
     public Response deleteLesson(@PathParam("id")Integer id) {
-        LessonsDAOAccess.INSTANCE.getLessonsDAO().delete(id);
+        Id lessonId = new Id();
+        lessonId.setValue(id);
+        LessonsDAOAccess.INSTANCE.getLessonsDAO().delete(lessonId);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 }

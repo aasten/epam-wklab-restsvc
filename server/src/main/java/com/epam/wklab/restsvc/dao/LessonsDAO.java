@@ -1,6 +1,8 @@
 package com.epam.wklab.restsvc.dao;
 
+import com.epam.wklab.restsvc.beans.Id;
 import com.epam.wklab.restsvc.beans.Lesson;
+import com.epam.wklab.restsvc.server.LessonNotFoundException;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,9 +15,9 @@ public interface LessonsDAO {
 
     Integer create(Lesson newLesson);
 
-    void delete(Integer id);
+    void delete(Id id);
 
-    Lesson get(Integer id);
+    Lesson get(Id id) throws LessonNotFoundException;
 
     Lesson update(Lesson updatedLesson);
 }
