@@ -16,15 +16,17 @@ public class RAMTeachersDAO implements TeachersDAO {
     private Map<Integer, Teacher> teachersMap = new ConcurrentHashMap<Integer, Teacher>();
     private AtomicInteger idCounter = new AtomicInteger();
 
-    public Integer create(Teacher newTeacher) {
+    @Override
+    public Id create(Teacher newTeacher) {
         Integer id = idCounter.addAndGet(1);
         Id newId = new Id();
         newId.setValue(id);
         newTeacher.setId(newId);
         teachersMap.put(id, newTeacher);
-        return id;
+        return newId;
     }
 
+    @Override
     public void delete(Id id) {
         teachersMap.remove(id.getValue());
     }

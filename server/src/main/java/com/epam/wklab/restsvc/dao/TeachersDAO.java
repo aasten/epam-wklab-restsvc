@@ -12,7 +12,7 @@ public interface TeachersDAO {
     /**
      * @return id of newly created teacher
      */
-    Integer create(Teacher newTeacher);
+    Id create(Teacher newTeacher);
 
     void delete(Id id);
     Teacher get(Id id) throws TeacherNotFoundException;

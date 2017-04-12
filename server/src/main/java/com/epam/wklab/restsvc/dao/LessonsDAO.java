@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public interface LessonsDAO {
 
-    Integer create(Lesson newLesson);
+    Id create(Lesson newLesson);
 
     void delete(Id id);
 

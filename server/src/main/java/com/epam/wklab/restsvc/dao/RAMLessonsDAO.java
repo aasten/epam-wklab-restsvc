@@ -16,13 +16,13 @@ public class RAMLessonsDAO implements LessonsDAO {
     private AtomicInteger idCounter = new AtomicInteger();
 
     @Override
-    public Integer create(Lesson newLesson) {
+    public Id create(Lesson newLesson) {
         Integer id = idCounter.addAndGet(1);
         Id newId = new Id();
         newId.setValue(id);
         newLesson.setId(newId);
         lessonsMap.put(id, newLesson);
-        return id;
+        return newId;
     }
 
     @Override
