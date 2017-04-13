@@ -43,8 +43,29 @@ public class TeacherService {
     }
 
     @GET
-    public Response getBusiestTeacher() {
-        return null;
+    @Path("/teachers/busiest-teacher")
+    public Response getBusiestTeacher() throws TeacherNotFoundException {
+        Integer idBusiest = null;
+        Integer busiestMinutes = new Integer(0);
+        for(Teacher t : TeachersDAOAccess.INSTANCE.getTeachersDAO().getTeachers().getTeachers()) {
+            int teachersMinutes = 0;
+            for(Integer lessonId : t.getLessons()) {
+                try {
+                    teachersMinutes += LessonsDAOAccess.INSTANCE.getLessonsDAO().get(lessonId).getDurationMinutes();
+                } catch(LessonNotFoundException e) {
+                    continue;
+                }
+            }
+            if(teachersMinutes > busiestMinutes) {
+                idBusiest = t.getId();
+                busiestMinutes = teachersMinutes;
+            }
+        }
+        if(null == idBusiest) {
+            throw new TeacherNotFoundException("There is no busiest teacher");
+        }
+        return Response.status(Response.Status.OK).entity(
+                TeachersDAOAccess.INSTANCE.getTeachersDAO().get(idBusiest)).build();
     }
     
     // teachers
@@ -125,7 +146,7 @@ public class TeacherService {
         try {
             Lesson existedLesson = LessonsDAOAccess.INSTANCE.getLessonsDAO().get(updatedLesson.getId());
             if (null != existedLesson) {
-                if (updatedLesson.equals(existedLesson)) {
+                if (updatedLesson.toXml().equals(existedLesson.toXml())) {
                     return Response.status(Response.Status.NOT_MODIFIED).build();
                 }
             }

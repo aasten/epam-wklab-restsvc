@@ -32,50 +32,56 @@ public class TestRestSimple {
             String req = "{ \"name\": \"Math\", \"durationMinutes\": 45 }";
             viewResponse(CLIENT.resource(resource).accept(MediaType.APPLICATION_XML)
                 .type(MediaType.APPLICATION_JSON)
-                .post(ClientResponse.class, req),req);
+                .post(ClientResponse.class, req),req,resource);
             resource = "http://localhost:9090/restservice/lessons/lesson/";
             req = "{ \"name\": \"Physics\", \"durationMinutes\": 45 }";
             viewResponse(CLIENT.resource(resource).accept(MediaType.APPLICATION_XML)
                 .type(MediaType.APPLICATION_JSON)
-                .post(ClientResponse.class, req),req);
+                .post(ClientResponse.class, req),req,resource);
             resource = "http://localhost:9090/restservice/lessons/lesson/";
             req = "{ \"name\": \"Informatics\", \"durationMinutes\": 45 }";
             viewResponse(CLIENT.resource(resource).accept(MediaType.APPLICATION_XML)
                 .type(MediaType.APPLICATION_JSON)
-                .post(ClientResponse.class, req),req);
+                .post(ClientResponse.class, req),req,resource);
 
             resource = "http://localhost:9090/restservice/teachers/teacher/";
             req = "{ \"name\": \"Petr Petrovich\", \"birthDay\": \"1980-04-23T18:25:43.511Z\", \"lessons\": [1,2] }";
             viewResponse(CLIENT.resource(resource).accept(MediaType.APPLICATION_XML)
                 .type(MediaType.APPLICATION_JSON)
-                .post(ClientResponse.class, req),req);
+                .post(ClientResponse.class, req),req,resource);
             resource = "http://localhost:9090/restservice/teachers/teacher/";
             req = "{ \"name\": \"Ivan Ivanovich\", \"birthDay\": \"1985-04-23T00:00:00.000Z\", \"lessons\": [3] }";
             viewResponse(CLIENT.resource(resource).accept(MediaType.APPLICATION_XML)
                 .type(MediaType.APPLICATION_JSON)
-                .post(ClientResponse.class, req),req);
+                .post(ClientResponse.class, req),req,resource);
 
             resource = "http://localhost:9090/restservice/teachers/teacher/1";
+            req = "";
             WebResource webResource = CLIENT.resource(resource);
-            viewResponse(CLIENT.resource(resource).accept("application/xml").get(ClientResponse.class),req);
+            viewResponse(CLIENT.resource(resource).accept(MediaType.APPLICATION_XML).get(ClientResponse.class),req,resource);
 
             // test for not-modified
             resource = "http://localhost:9090/restservice/teachers/teacher";
             req = "{ \"id\":1, \"name\": \"Petr Petrovich\", \"birthDay\": \"1980-04-23T18:25:43.511Z\", \"lessons\": [1,2] }";
             viewResponse(CLIENT.resource(resource).accept(MediaType.APPLICATION_XML)
                 .type(MediaType.APPLICATION_JSON)
-                .put(ClientResponse.class, req),req);
+                .put(ClientResponse.class, req),req,resource);
             resource = "http://localhost:9090/restservice/teachers/teacher";
-            req = "{ \"id\":1, \"name\": \"Petr Petrovich\", \"birthDay\": \"1980-04-23T18:25:43.511Z\", \"lessons\": [1,3] }";
+            req = "{ \"id\":1, \"name\": \"Petr Petrovich\", \"birthDay\": \"1980-04-23T18:25:43.511Z\", \"lessons\": [3] }";
             viewResponse(CLIENT.resource(resource).accept(MediaType.APPLICATION_XML)
                 .type(MediaType.APPLICATION_JSON)
-                .put(ClientResponse.class, req),req);
+                .put(ClientResponse.class, req),req,resource);
 
             resource = "http://localhost:9090/restservice/teachers/teacher";
-            req = "{ \"id\":2, \"name\": \"Ivan Ivanovich\", \"birthDay\": \"1985-04-23T00:00:00.000Z\", \"lessons\": [2] }";
+            req = "{ \"id\":2, \"name\": \"Ivan Ivanovich\", \"birthDay\": \"1985-04-23T00:00:00.000Z\", \"lessons\": [1,2] }";
             viewResponse(CLIENT.resource(resource).accept(MediaType.APPLICATION_XML)
                 .type(MediaType.APPLICATION_JSON)
-                .put(ClientResponse.class, req),req);
+                .put(ClientResponse.class, req),req,resource);
+
+            resource = "http://localhost:9090/restservice/teachers/busiest-teacher";
+            req = "";
+            webResource = CLIENT.resource(resource);
+            viewResponse(CLIENT.resource(resource).accept(MediaType.APPLICATION_XML).get(ClientResponse.class),req,resource);
 
 
         } catch (Exception e) {
@@ -83,9 +89,9 @@ public class TestRestSimple {
         }
     }
 
-    private static void viewResponse(ClientResponse response, String request) {
+    private static void viewResponse(ClientResponse response, String request, String resource) {
         System.out.println("---------------");
-        System.out.println("Sent:");
+        System.out.println("Sent to resource " + resource + " :");
         System.out.println(request);
         if (response.getStatus() < 200 || response.getStatus() > 299) {
             if (response.getStatus() >= 300 && response.getStatus() < 400) {

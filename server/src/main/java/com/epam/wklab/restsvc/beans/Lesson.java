@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Created by sten on 12.04.17.
  */
 @XmlRootElement
-public class Lesson {
+public class Lesson extends Marshallable {
     private Integer id;
     private String name;
     private Integer durationMinutes;
