@@ -27,3 +27,16 @@ Exceptions’ catching should be realized using ExceptionMapper.
 
 Implement HTTP client for the Web Service above.
 Demonstrate work of the Web Service using the Client.
+
+# Solution
+
+Run the server first with:
+```
+cd server/
+mvn package tomcat7:run-war
+```
+Then run client with:
+```
+cd client/
+mvn package exec:java
+```
