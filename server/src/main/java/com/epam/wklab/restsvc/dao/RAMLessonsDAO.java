@@ -23,29 +23,29 @@ public class RAMLessonsDAO implements LessonsDAO {
         Integer id = idCounter.addAndGet(1);
         Id newId = new Id();
         newId.setValue(id);
-        newLesson.setId(newId);
+        newLesson.setId(id);
         lessonsMap.put(id, newLesson);
         return newId;
     }
 
     @Override
-    public void delete(Id id) {
-        lessonsMap.remove(id.getValue());
+    public void delete(Integer id) {
+        lessonsMap.remove(id);
     }
 
     @Override
-    public Lesson get(Id id) throws LessonNotFoundException {
-        Lesson ret = lessonsMap.get(id.getValue());
+    public Lesson get(Integer id) throws LessonNotFoundException {
+        Lesson ret = lessonsMap.get(id);
         if(null == ret) {
-            throw new LessonNotFoundException("Lesson with id " + id.getValue() + " not found");
+            throw new LessonNotFoundException("Lesson with id " + id + " not found");
         }
         return ret;
     }
 
     @Override
     public Lesson update(Lesson updatedLesson) {
-        Lesson ret = lessonsMap.get(updatedLesson.getId().getValue());
-        lessonsMap.put(updatedLesson.getId().getValue(),updatedLesson);
+        Lesson ret = lessonsMap.get(updatedLesson.getId());
+        lessonsMap.put(updatedLesson.getId(),updatedLesson);
         return ret;
     }
 

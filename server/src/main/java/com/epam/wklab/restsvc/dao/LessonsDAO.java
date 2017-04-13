@@ -17,9 +17,9 @@ public interface LessonsDAO {
 
     Id create(Lesson newLesson);
 
-    void delete(Id id);
+    void delete(Integer id);
 
-    Lesson get(Id id) throws LessonNotFoundException;
+    Lesson get(Integer id) throws LessonNotFoundException;
 
     Lesson update(Lesson updatedLesson);
 

@@ -15,8 +15,8 @@ public interface TeachersDAO {
      */
     Id create(Teacher newTeacher);
 
-    void delete(Id id);
-    Teacher get(Id id) throws TeacherNotFoundException;
+    void delete(Integer id);
+    Teacher get(Integer id) throws TeacherNotFoundException;
 
     /**
      * @return previous Teacher object with same id as in updatedTeacher

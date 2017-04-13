@@ -7,16 +7,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class Lesson {
-    private Id id;
+    private Integer id;
     private String name;
     private Integer durationMinutes;
 
 
-    public Id getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Id id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -16,6 +16,8 @@ import javax.ws.rs.core.Response;
 import javax.wsdl.extensions.mime.MIMEContent;
 import java.util.Date;
 
+
+
 /**
  * Created by sten on 12.04.17.
  */
@@ -64,19 +66,18 @@ public class TeacherService {
     @GET
     @Path("/teachers/teacher/{id}")
     public Response getTeacher(@PathParam("id")Integer id) throws TeacherNotFoundException {
-        Id teacherId = new Id();
-        teacherId.setValue(id);
         return Response.status(Response.Status.OK).entity(
-                TeachersDAOAccess.INSTANCE.getTeachersDAO().get(teacherId)).build();
+                TeachersDAOAccess.INSTANCE.getTeachersDAO().get(id)).build();
     }
+
 
     @PUT
     @Path("/teachers/teacher")
     public Response updateTeacher(Teacher updatedTeacher) {
         try {
             Teacher existedTeacher = TeachersDAOAccess.INSTANCE.getTeachersDAO().get(updatedTeacher.getId());
-            if(null != existedTeacher) {
-                if(updatedTeacher.equals(existedTeacher)) {
+            if(null != existedTeacher) { 
+                if(updatedTeacher.toXml().equals(existedTeacher.toXml())) {         
                     return Response.status(Response.Status.NOT_MODIFIED).build();
                 }
             }
@@ -91,9 +92,7 @@ public class TeacherService {
     @DELETE
     @Path("/teachers/teacher/{id}")
     public Response deleteTeacher(@PathParam("id")Integer id) {
-        Id teacherId = new Id();
-        teacherId.setValue(id);
-        TeachersDAOAccess.INSTANCE.getTeachersDAO().delete(teacherId);
+        TeachersDAOAccess.INSTANCE.getTeachersDAO().delete(id);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
     
@@ -116,10 +115,8 @@ public class TeacherService {
     @GET
     @Path("/lessons/lesson/{id}")
     public Response getLesson(@PathParam("id")Integer id) throws LessonNotFoundException {
-        Id lessonId = new Id();
-        lessonId.setValue(id);
         return Response.status(Response.Status.OK).entity(
-                LessonsDAOAccess.INSTANCE.getLessonsDAO().get(lessonId)).build();
+                LessonsDAOAccess.INSTANCE.getLessonsDAO().get(id)).build();
     }
 
     @PUT
@@ -142,9 +139,7 @@ public class TeacherService {
     @DELETE
     @Path("/lessons/lesson/{id}")
     public Response deleteLesson(@PathParam("id")Integer id) {
-        Id lessonId = new Id();
-        lessonId.setValue(id);
-        LessonsDAOAccess.INSTANCE.getLessonsDAO().delete(lessonId);
+        LessonsDAOAccess.INSTANCE.getLessonsDAO().delete(id);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 }

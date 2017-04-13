@@ -24,28 +24,28 @@ public class RAMTeachersDAO implements TeachersDAO {
         Integer id = idCounter.addAndGet(1);
         Id newId = new Id();
         newId.setValue(id);
-        newTeacher.setId(newId);
+        newTeacher.setId(id);
         teachersMap.put(id, newTeacher);
         return newId;
     }
 
     @Override
-    public void delete(Id id) {
-        teachersMap.remove(id.getValue());
+    public void delete(Integer id) {
+        teachersMap.remove(id);
     }
 
     @Override
-    public Teacher get(Id id) throws TeacherNotFoundException {
-        Teacher ret = teachersMap.get(id.getValue());
+    public Teacher get(Integer id) throws TeacherNotFoundException {
+        Teacher ret = teachersMap.get(id);
         if(null == ret) {
-            throw new TeacherNotFoundException("Teacher with id " + id.getValue() + " not found");
+            throw new TeacherNotFoundException("Teacher with id " + id + " not found");
         }
         return ret;
     }
 
     public Teacher update(Teacher updatedTeacher) {
-        Teacher ret = teachersMap.get(updatedTeacher.getId().getValue());
-        teachersMap.put(updatedTeacher.getId().getValue(),updatedTeacher);
+        Teacher ret = teachersMap.get(updatedTeacher.getId());
+        teachersMap.put(updatedTeacher.getId(),updatedTeacher);
         return ret;
     }
 

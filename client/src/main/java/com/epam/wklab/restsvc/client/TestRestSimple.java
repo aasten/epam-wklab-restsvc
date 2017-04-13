@@ -59,6 +59,24 @@ public class TestRestSimple {
             WebResource webResource = CLIENT.resource(resource);
             viewResponse(CLIENT.resource(resource).accept("application/xml").get(ClientResponse.class),req);
 
+            // test for not-modified
+            resource = "http://localhost:9090/restservice/teachers/teacher";
+            req = "{ \"id\":1, \"name\": \"Petr Petrovich\", \"birthDay\": \"1980-04-23T18:25:43.511Z\", \"lessons\": [1,2] }";
+            viewResponse(CLIENT.resource(resource).accept(MediaType.APPLICATION_XML)
+                .type(MediaType.APPLICATION_JSON)
+                .put(ClientResponse.class, req),req);
+            resource = "http://localhost:9090/restservice/teachers/teacher";
+            req = "{ \"id\":1, \"name\": \"Petr Petrovich\", \"birthDay\": \"1980-04-23T18:25:43.511Z\", \"lessons\": [1,3] }";
+            viewResponse(CLIENT.resource(resource).accept(MediaType.APPLICATION_XML)
+                .type(MediaType.APPLICATION_JSON)
+                .put(ClientResponse.class, req),req);
+
+            resource = "http://localhost:9090/restservice/teachers/teacher";
+            req = "{ \"id\":2, \"name\": \"Ivan Ivanovich\", \"birthDay\": \"1985-04-23T00:00:00.000Z\", \"lessons\": [2] }";
+            viewResponse(CLIENT.resource(resource).accept(MediaType.APPLICATION_XML)
+                .type(MediaType.APPLICATION_JSON)
+                .put(ClientResponse.class, req),req);
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,8 +88,14 @@ public class TestRestSimple {
         System.out.println("Sent:");
         System.out.println(request);
         if (response.getStatus() < 200 || response.getStatus() > 299) {
-            System.err.println("Failed : HTTP error code : "
+            if (response.getStatus() >= 300 && response.getStatus() < 400) {
+                System.out.println("Redirection, no output from Server [HTTP " + response.getStatus() + "]");    
+            } else {
+                System.err.println("Failed : HTTP error code : "
                     + response.getStatus() + "; Server says: " + response.getEntity(String.class));
+            }
+        } else if (response.getStatus() == 204) {
+            System.out.println("No output from Server [HTTP " + response.getStatus() + "]");
         } else {
             String output = response.getEntity(String.class);
             System.out.println("Output from Server [HTTP " + response.getStatus() + "]:");
